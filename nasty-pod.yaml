@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nasty-pod
+  namespace: default
+spec:
+  containers:
+  - name: nasty-pod
+    image: nginx
+    resources:
+      requests:
+        cpu: "100m"

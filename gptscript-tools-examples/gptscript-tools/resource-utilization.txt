@@ -1,0 +1,100 @@
+❯ gptscript resource-utilization.gpt
+21:43:25 started  [main]
+21:43:25 started  [context: shared-context]
+21:43:25 ended    [context: shared-context] [output=You are a highly efficient assistant specializing in Kubernetes cluster management.\nAlways prioritiz...]
+21:43:25 sent     [main]
+21:43:25 started  [sys.exec(3)] [input={"command": "kubectl top nodes"}]
+21:43:25 sent     [sys.exec(3)]
+21:43:25 started  [sys.exec(4)] [input={"command": "kubectl top pods --all-namespaces"}]
+21:43:25 sent     [sys.exec(4)]
+21:43:25 ended    [sys.exec(4)] [output=NAMESPACE     NAME                                      CPU(cores)   MEMORY(bytes)   \ndefault...]
+         content  [3] content | NAME                       CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+         content  [3] content | k3d-k8sgpt-demo-server-0   84m          1%     671Mi           8%        
+         content  [3] content | 
+         content  [4] content | NAMESPACE     NAME                                      CPU(cores)   MEMORY(bytes)   
+         content  [4] content | default       prometheus-example-app-698f5b674-ndvnj    1m           2Mi             
+         content  [4] content | kube-system   coredns-7b98449c4-q6sw5                   2m           17Mi            
+         content  [4] content | kube-system   local-path-provisioner-595dcfc56f-9ndz4   1m           10Mi            
+         content  [4] content | kube-system   metrics-server-cdcc87586-mxqn4            4m           36Mi            
+         content  [4] content | kube-system   svclb-traefik-25a89423-8558j              0m           0Mi             
+         content  [4] content | kube-system   traefik-d7c9c5778-kvt8f                   1m           42Mi            
+         content  [4] content | 
+21:43:25 ended    [sys.exec(3)] [output=NAME                       CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   \nk3d-k8sgpt-demo-server-0...]
+21:43:25 continue [main]
+21:43:25 started  [context: shared-context]
+21:43:25 ended    [context: shared-context] [output=You are a highly efficient assistant specializing in Kubernetes cluster management.\nAlways prioritiz...]
+21:43:25 sent     [main]
+         content  [1] content | Waiting for model response...         content  [1] content | ### Cluster Resource Utilization Summary
+         content  [1] content | 
+         content  [1] content | #### Node Utilization
+         content  [1] content | - **Node Name:** k3d-k8sgpt-demo-server-0
+         content  [1] content |   - **CPU Usage:** 84m (1%)
+         content  [1] content |   - **Memory Usage:** 671Mi (8%)
+         content  [1] content | 
+         content  [1] content | #### Pod Utilization
+         content  [1] content | - **default/prometheus-example-app-698f5b674-ndvnj**
+         content  [1] content |   - CPU: 1m
+         content  [1] content |   - Memory: 2Mi
+         content  [1] content | - **kube-system/coredns-7b98449c4-q6sw5**
+         content  [1] content |   - CPU: 2m
+         content  [1] content |   - Memory: 17Mi
+         content  [1] content | - **kube-system/local-path-provisioner-595dcfc56f-9ndz4**
+         content  [1] content |   - CPU: 1m
+         content  [1] content |   - Memory: 10Mi
+         content  [1] content | - **kube-system/metrics-server-cdcc87586-mxqn4**
+         content  [1] content |   - CPU: 4m
+         content  [1] content |   - Memory: 36Mi
+         content  [1] content | - **kube-system/svclb-traefik-25a89423-8558j**
+         content  [1] content |   - CPU: 0m
+         content  [1] content |   - Memory: 0Mi
+         content  [1] content | - **kube-system/traefik-d7c9c5778-kvt8f**
+         content  [1] content |   - CPU: 1m
+         content  [1] content |   - Memory: 42Mi
+         content  [1] content | 
+         content  [1] content | ### Analysis
+         content  [1] content | - **Node Utilization:** The node is underutilized with only 1% CPU and 8% memory usage.
+         content  [1] content | - **Pod Utilization:** All pods are using minimal resources, with no pod hitting resource limits.
+         content  [1] content | 
+         content  [1] content | ### Recommendations
+         content  [1] content | - Consider optimizing resource requests and limits for pods to better utilize node capacity.
+         content  [1] content | - Monitor the cluster for any changes in workload that might affect resource utilization.
+21:43:34 ended    [main] [output=### Cluster Resource Utilization Summary\n\n#### Node Utilization\n- **Node Name:** k3d-k8sgpt-demo-ser...]
+21:43:34 usage    [total=978] [prompt=622] [completion=356]
+
+OUTPUT:
+
+### Cluster Resource Utilization Summary
+
+#### Node Utilization
+- **Node Name:** k3d-k8sgpt-demo-server-0
+  - **CPU Usage:** 84m (1%)
+  - **Memory Usage:** 671Mi (8%)
+
+#### Pod Utilization
+- **default/prometheus-example-app-698f5b674-ndvnj**
+  - CPU: 1m
+  - Memory: 2Mi
+- **kube-system/coredns-7b98449c4-q6sw5**
+  - CPU: 2m
+  - Memory: 17Mi
+- **kube-system/local-path-provisioner-595dcfc56f-9ndz4**
+  - CPU: 1m
+  - Memory: 10Mi
+- **kube-system/metrics-server-cdcc87586-mxqn4**
+  - CPU: 4m
+  - Memory: 36Mi
+- **kube-system/svclb-traefik-25a89423-8558j**
+  - CPU: 0m
+  - Memory: 0Mi
+- **kube-system/traefik-d7c9c5778-kvt8f**
+  - CPU: 1m
+  - Memory: 42Mi
+
+### Analysis
+- **Node Utilization:** The node is underutilized with only 1% CPU and 8% memory usage.
+- **Pod Utilization:** All pods are using minimal resources, with no pod hitting resource limits.
+
+### Recommendations
+- Consider optimizing resource requests and limits for pods to better utilize node capacity.
+- Monitor the cluster for any changes in workload that might affect resource utilization.
+

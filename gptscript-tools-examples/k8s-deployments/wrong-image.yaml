@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wrong-image-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wrong-image
+  template:
+    metadata:
+      labels:
+        app: wrong-image
+    spec:
+      containers:
+      - name: typo-container
+        image: nginxx:latest # Wrong Image-Name (nginxx instead of nginx)
+        ports:
+        - containerPort: 80

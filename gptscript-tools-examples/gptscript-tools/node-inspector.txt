@@ -1,0 +1,169 @@
+❯ gptscript node-inspector.gpt
+21:41:49 started  [main]
+21:41:49 started  [context: shared-context]
+21:41:49 ended    [context: shared-context] [output=You are a highly efficient assistant specializing in Kubernetes cluster management.\nYou are skilled...]
+21:41:49 sent     [main]
+21:41:49 started  [sys.exec(3)] [input={"command": "kubectl describe nodes"}]
+21:41:49 started  [sys.exec(4)] [input={"command": "kubectl get nodes"}]
+21:41:49 sent     [sys.exec(4)]
+21:41:49 sent     [sys.exec(3)]
+21:41:49 ended    [sys.exec(4)] [output=NAME                       STATUS   ROLES                  AGE    VERSION\nk3d-k8sgpt-demo-server-0...]
+         content  [3] content | Name:               k3d-k8sgpt-demo-server-0
+         content  [3] content | Roles:              control-plane,master
+         content  [3] content | Labels:             beta.kubernetes.io/arch=amd64
+         content  [3] content |                     beta.kubernetes.io/instance-type=k3s
+         content  [3] content |                     beta.kubernetes.io/os=linux
+         content  [3] content |                     kubernetes.io/arch=amd64
+         content  [3] content |                     kubernetes.io/hostname=k3d-k8sgpt-demo-server-0
+         content  [3] content |                     kubernetes.io/os=linux
+         content  [3] content |                     node-role.kubernetes.io/control-plane=true
+         content  [3] content |                     node-role.kubernetes.io/master=true
+         content  [3] content |                     node.kubernetes.io/instance-type=k3s
+         content  [3] content | Annotations:        alpha.kubernetes.io/provided-node-ip: 172.19.0.2
+         content  [3] content |                     flannel.alpha.coreos.com/backend-data: {"VNI":1,"VtepMAC":"b6:0f:f0:f5:19:a9"}
+         content  [3] content |                     flannel.alpha.coreos.com/backend-type: vxlan
+         content  [3] content |                     flannel.alpha.coreos.com/kube-subnet-manager: true
+         content  [3] content |                     flannel.alpha.coreos.com/public-ip: 172.19.0.2
+         content  [3] content |                     k3s.io/hostname: k3d-k8sgpt-demo-server-0
+         content  [3] content |                     k3s.io/internal-ip: 172.19.0.2
+         content  [3] content |                     k3s.io/node-args: ["server","--tls-san","0.0.0.0","--tls-san","k3d-k8sgpt-demo-s ...
+         content  [3] content |                     k3s.io/node-config-hash: VKOVVGX6GGOB4ZQKQHNDA73IHHHE76STN4SABDNJCY6QTXEYVMWQ=== ...
+         content  [3] content |                     k3s.io/node-env: {"K3S_KUBECONFIG_OUTPUT":"/output/kubeconfig.yaml","K3S_TOKEN": ...
+         content  [3] content |                     node.alpha.kubernetes.io/ttl: 0
+         content  [3] content |                     volumes.kubernetes.io/controller-managed-attach-detach: true
+         content  [3] content | CreationTimestamp:  Sat, 04 Jan 2025 15:11:04 +0530
+         content  [3] content | Taints:             <none>
+         content  [3] content | Unschedulable:      false
+         content  [3] content | Lease:
+         content  [3] content |   HolderIdentity:  k3d-k8sgpt-demo-server-0
+         content  [3] content |   AcquireTime:     <unset>
+         content  [3] content |   RenewTime:       Tue, 07 Jan 2025 21:41:43 +0530
+         content  [3] content | Conditions:
+         content  [3] content |   Type             Status  LastHeartbeatTime                 LastTransitionTime                Reaso ...
+         content  [3] content |   ----             ------  -----------------                 ------------------                ----- ...
+         content  [3] content |   MemoryPressure   False   Tue, 07 Jan 2025 21:37:59 +0530   Sat, 04 Jan 2025 15:11:04 +0530   Kubel ...
+         content  [3] content |   DiskPressure     False   Tue, 07 Jan 2025 21:37:59 +0530   Sat, 04 Jan 2025 15:11:04 +0530   Kubel ...
+         content  [3] content |   PIDPressure      False   Tue, 07 Jan 2025 21:37:59 +0530   Sat, 04 Jan 2025 15:11:04 +0530   Kubel ...
+         content  [3] content |   Ready            True    Tue, 07 Jan 2025 21:37:59 +0530   Sat, 04 Jan 2025 15:11:04 +0530   Kubel ...
+         content  [3] content | Addresses:
+         content  [3] content |   InternalIP:  172.19.0.2
+         content  [3] content |   Hostname:    k3d-k8sgpt-demo-server-0
+         content  [3] content | Capacity:
+         content  [3] content |   cpu:                8
+         content  [3] content |   ephemeral-storage:  81121736Ki
+         content  [3] content |   hugepages-1Gi:      0
+         content  [3] content |   hugepages-2Mi:      0
+         content  [3] content |   memory:             7865732Ki
+         content  [3] content |   pods:               110
+         content  [3] content | Allocatable:
+         content  [3] content |   cpu:                8
+         content  [3] content |   ephemeral-storage:  78915224719
+         content  [3] content |   hugepages-1Gi:      0
+         content  [3] content |   hugepages-2Mi:      0
+         content  [3] content |   memory:             7865732Ki
+         content  [3] content |   pods:               110
+         content  [3] content | System Info:
+         content  [3] content |   Machine ID:                 
+         content  [3] content |   System UUID:                3944d8d1-a55c-ec11-810d-c01803391064
+         content  [3] content |   Boot ID:                    2b29706d-524d-402a-a144-93e963ac4adc
+         content  [3] content |   Kernel Version:             6.8.0-49-generic
+         content  [3] content |   OS Image:                   K3s v1.30.6+k3s1
+         content  [3] content |   Operating System:           linux
+         content  [3] content |   Architecture:               amd64
+         content  [3] content |   Container Runtime Version:  containerd://1.7.22-k3s1
+         content  [3] content |   Kubelet Version:            v1.30.6+k3s1
+         content  [3] content |   Kube-Proxy Version:         v1.30.6+k3s1
+         content  [3] content | PodCIDR:                      10.42.0.0/24
+         content  [3] content | PodCIDRs:                     10.42.0.0/24
+         content  [3] content | ProviderID:                   k3s://k3d-k8sgpt-demo-server-0
+         content  [3] content | Non-terminated Pods:          (9 in total)
+         content  [3] content |   Namespace                   Name                                            CPU Requests  CPU Limi ...
+         content  [3] content |   ---------                   ----                                            ------------  -------- ...
+         content  [3] content |   default                     crash-loop-pod                                  0 (0%)        0 (0%)   ...
+         content  [3] content |   default                     faulty-image-tag-deployment-66b965f5b9-xx85j    0 (0%)        0 (0%)   ...
+         content  [3] content |   default                     prometheus-example-app-698f5b674-ndvnj          0 (0%)        0 (0%)   ...
+         content  [3] content |   default                     wrong-image-deployment-5c997dd5f-xn62j          0 (0%)        0 (0%)   ...
+         content  [3] content |   kube-system                 coredns-7b98449c4-q6sw5                         100m (1%)     0 (0%)   ...
+         content  [3] content |   kube-system                 local-path-provisioner-595dcfc56f-9ndz4         0 (0%)        0 (0%)   ...
+         content  [3] content |   kube-system                 metrics-server-cdcc87586-mxqn4                  100m (1%)     0 (0%)   ...
+         content  [3] content |   kube-system                 svclb-traefik-25a89423-8558j                    0 (0%)        0 (0%)   ...
+         content  [3] content |   kube-system                 traefik-d7c9c5778-kvt8f                         0 (0%)        0 (0%)   ...
+         content  [3] content | Allocated resources:
+         content  [3] content |   (Total limits may be over 100 percent, i.e., overcommitted.)
+         content  [3] content |   Resource           Requests    Limits
+         content  [3] content |   --------           --------    ------
+         content  [3] content |   cpu                200m (2%)   0 (0%)
+         content  [3] content |   memory             140Mi (1%)  170Mi (2%)
+         content  [3] content |   ephemeral-storage  0 (0%)      0 (0%)
+         content  [3] content |   hugepages-1Gi      0 (0%)      0 (0%)
+         content  [3] content |   hugepages-2Mi      0 (0%)      0 (0%)
+         content  [3] content | Events:
+         content  [3] content |   Type     Reason               Age                From     Message
+         content  [3] content |   ----     ------               ----               ----     -------
+         content  [3] content |   Warning  FreeDiskSpaceFailed  5s (x83 over 10h)  kubelet  (combined from similar events): Failed t ...
+         content  [3] content | 
+         content  [4] content | NAME                       STATUS   ROLES                  AGE    VERSION
+         content  [4] content | k3d-k8sgpt-demo-server-0   Ready    control-plane,master   3d6h   v1.30.6+k3s1
+         content  [4] content | 
+21:41:49 ended    [sys.exec(3)] [output=Name:               k3d-k8sgpt-demo-server-0\nRoles:              control-plane,master\nLabels:...]
+21:41:49 continue [main]
+21:41:49 started  [context: shared-context]
+21:41:49 ended    [context: shared-context] [output=You are a highly efficient assistant specializing in Kubernetes cluster management.\nYou are skilled...]
+21:41:49 sent     [main]
+         content  [1] content | Waiting for model response...
+         content  [1] content | The Kubernetes cluster currently has one node, `k3d-k8sgpt-demo-server-0`, which is in a `Ready` state. Here are the details and findings:
+         content  [1] content | 
+         content  [1] content | ### Node Health:
+         content  [1] content | - **Node Name:** k3d-k8sgpt-demo-server-0
+         content  [1] content | - **Status:** Ready
+         content  [1] content | - **Roles:** control-plane, master
+         content  [1] content | - **Conditions:**
+         content  [1] content |   - **MemoryPressure:** False (Sufficient memory available)
+         content  [1] content |   - **DiskPressure:** False (No disk pressure)
+         content  [1] content |   - **PIDPressure:** False (Sufficient PID available)
+         content  [1] content |   - **Ready:** True (Kubelet is posting ready status)
+         content  [1] content | 
+         content  [1] content | ### Resource Usage:
+         content  [1] content | - **CPU Requests:** 200m (2%)
+         content  [1] content | - **Memory Requests:** 140Mi (1%)
+         content  [1] content | - **Disk Pressure:** No disk pressure reported, but there are warnings related to disk space.
+         content  [1] content | 
+         content  [1] content | ### Issues Identified:
+         content  [1] content | - **Disk Space Warning:** There are repeated warnings about failing to free disk space. The system attempted to free 5.6 GB but only found 72 MB eligible to free. This indicates potential issues with disk space management, particularly with image garbage collection.
+         content  [1] content | 
+         content  [1] content | ### Recommendations:
+         content  [1] content | - **Disk Space Management:** Consider cleaning up unused Docker images or increasing disk space to prevent potential issues related to disk space.
+         content  [1] content | - **Monitoring:** Keep an eye on disk usage and set up alerts to prevent running into disk space issues in the future.
+         content  [1] content | 
+         content  [1] content | Overall, the node is healthy, but attention is needed for disk space management to ensure continued smooth operation.
+21:41:57 ended    [main] [output=The Kubernetes cluster currently has one node, `k3d-k8sgpt-demo-server-0`, which is in a `Ready` sta...]
+21:41:57 usage    [total=2577] [prompt=2269] [completion=308]
+
+OUTPUT:
+
+The Kubernetes cluster currently has one node, `k3d-k8sgpt-demo-server-0`, which is in a `Ready` state. Here are the details and findings:
+
+### Node Health:
+- **Node Name:** k3d-k8sgpt-demo-server-0
+- **Status:** Ready
+- **Roles:** control-plane, master
+- **Conditions:**
+  - **MemoryPressure:** False (Sufficient memory available)
+  - **DiskPressure:** False (No disk pressure)
+  - **PIDPressure:** False (Sufficient PID available)
+  - **Ready:** True (Kubelet is posting ready status)
+
+### Resource Usage:
+- **CPU Requests:** 200m (2%)
+- **Memory Requests:** 140Mi (1%)
+- **Disk Pressure:** No disk pressure reported, but there are warnings related to disk space.
+
+### Issues Identified:
+- **Disk Space Warning:** There are repeated warnings about failing to free disk space. The system attempted to free 5.6 GB but only found 72 MB eligible to free. This indicates potential issues with disk space management, particularly with image garbage collection.
+
+### Recommendations:
+- **Disk Space Management:** Consider cleaning up unused Docker images or increasing disk space to prevent potential issues related to disk space.
+- **Monitoring:** Keep an eye on disk usage and set up alerts to prevent running into disk space issues in the future.
+
+Overall, the node is healthy, but attention is needed for disk space management to ensure continued smooth operation.
+

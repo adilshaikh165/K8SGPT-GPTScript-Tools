@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pod-svc
+  namespace: default
+spec:
+  selector:
+    app: dem-app  # Intentionally incorrect label
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080  # Updated to match the Pod containerPort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-pod
+  namespace: default
+  labels:
+    app: demo-app  # Correct label for the Pod
+spec:
+  containers:
+  - name: simple-server
+    image: hashicorp/http-echo:0.2.3  # Lightweight, reliable image
+    args:
+      - "-text=Hello, Kubernetes!"
+    ports:
+    - containerPort: 8080  # Updated to expose the correct port

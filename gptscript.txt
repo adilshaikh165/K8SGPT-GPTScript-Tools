@@ -1,0 +1,695 @@
+❯ gptscript k8s-fix.gpt
+
+  Ahoy, matey! I be a helpful Kubernetes assistant, ready to assist ye with yer cluster. What be the trouble ye be facin' with yer Kubernetes cluster?                            
+
+> give me list of pods in pending state
+
+  Running  kubectl get pods --all-namespaces --field-selector=status.phase=Pending                                                                                                
+
+    ┌──────────────────────────────────────────────────────────┐
+    │ NAMESPACE   NAME        READY   STATUS    RESTARTS   AGE │
+    │ default     nasty-pod   0/1     Pending   0          49s │
+    └──────────────────────────────────────────────────────────┘
+                                                                
+  Arrr, here be the list of pods in the pending state:                                                                                                                            
+                                                                                                                                                                                  
+  • Namespace: default                                                                                                                                                            
+    • Name: nasty-pod                                                                                                                                                             
+    • Ready: 0/1                                                                                                                                                                  
+    • Status: Pending                                                                                                                                                             
+    • Restarts: 0                                                                                                                                                                 
+    • Age: 49 seconds                                                                                                                                                             
+                                                                                                                                                                                  
+                                                                                                                                                                                  
+  If ye be needin' help with this pending pod, just let me know!                                                                                                                  
+
+> any more issues in my cluster?
+
+    ┌─────────────────────────────────────────────┐
+    │ Call Arguments:                             │
+    │                                             │
+    │ exec {"command":"k8sgpt analyze --explain"} │
+    └─────────────────────────────────────────────┘
+                                                   
+  Running  k8sgpt analyze --explain                                                                                                                                               
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 100% |██████████████████                                                      0s]
+    │ AI Provider: openai                                                                                                                                                                 
+    │                                                                                                                                                                                     
+    │ 0 default/nasty-pod(nasty-pod)                                                                                                                                                      
+    │ - Error: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.                                          
+    │ Error: {0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.}                                          
+    │                                                                                                                                                                                     
+    │ Solution:                                                                                                                                                                           
+    │  Step 1: Check current CPU resources - `kubectl describe node <node-name> | grep cpu`                                                                                               
+    │  Step 2: Adjust resource requests or limits for the pod.                                                                                                                            
+    │  Step 3: Verify if other pods are consuming excessive CPU, consider scaling or terminating them.                                                                                    
+    │ 1 default/pod-svc(pod-svc)                                                                                                                                                          
+    │ - Error: Service has no endpoints, expected label app=dem-app                                                                                                                       
+    │ Here's the simplified error message and solution:                                                                                                                                   
+    │                                                                                                                                                                                     
+    │ Error: Service has no endpoints, expected label app=dem-app                                                                                                                         
+    │ Solution:                                                                                                                                                                           
+    │ 1. Check pod logs for missing endpoint configuration.                                                                                                                               
+    │ 2. Verify pod labels match 'app=dem-app'.                                                                                                                                           
+    │ 3. Update service YAML to include a selector (e.g., labelSelector: {matchLabels: {"app": "dem-app"}}).                                                                              
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+  Arrr, matey! I found a couple o' issues in yer cluster:                                                                                                                         
+                                                                                                                                                                                  
+  1. Pod Issue:                                                                                                                                                                   
+    • Pod Name: nasty-pod                                                                                                                                                         
+    • Error: 0/1 nodes are available: 1 Insufficient CPU. No preemption victims found for incoming pod.                                                                           
+    • Solution:                                                                                                                                                                   
+      1. Check current CPU resources:  kubectl describe node <node-name> | grep cpu                                                                                               
+      2. Adjust resource requests or limits for the pod.                                                                                                                          
+      3. Verify if other pods are consuming excessive CPU, consider scaling or terminating them.                                                                                  
+                                                                                                                                                                                  
+  2. Service Issue:                                                                                                                                                               
+    • Service Name: pod-svc                                                                                                                                                       
+    • Error: Service has no endpoints, expected label  app=dem-app .                                                                                                              
+    • Solution:                                                                                                                                                                   
+      1. Check pod logs for missing endpoint configuration.                                                                                                                       
+      2. Verify pod labels match  app=dem-app .                                                                                                                                   
+      3. Update service YAML to include a selector (e.g.,  labelSelector: {matchLabels: {"app": "dem-app"}} ).                                                                    
+                                                                                                                                                                                  
+                                                                                                                                                                                  
+                                                                                                                                                                                  
+  Would ye like me to proceed with fixin' these issues, or do ye have any questions, matey?                                                                                       
+
+> can you please use the above suggestions from k8sgpt and fix the issues for me?
+
+  Aye aye, captain! I'll be fixin' these issues for ye. Let's start with the first issue related to the  nasty-pod . I'll check the current CPU resources and adjust the pod's    
+  resource requests or limits if needed. Then, I'll address the service issue. Hold tight! 🏴‍☠️                                                                                   
+                                                                                                                                                                                  
+  ### Step 1: Check Current CPU Resources                                                                                                                                         
+                                                                                                                                                                                  
+  I'll be checkin' the CPU resources on the node. Let me fetch that information first.                                                                                            
+
+
+    ┌──────────────────────────────────────┐
+    │ Call Arguments:                      │
+    │                                      │
+    │ exec {"command":"kubectl get nodes"} │
+    └──────────────────────────────────────┘
+                                            
+  Running  kubectl get nodes                                                                                                                                                      
+
+    ┌────────────────────────────────────────────────────────────────────────────────┐
+    │ NAME                       STATUS   ROLES                  AGE    VERSION      │
+    │ k3d-k8sgpt-demo-server-0   Ready    control-plane,master   2d8h   v1.30.6+k3s1 │
+    └────────────────────────────────────────────────────────────────────────────────┘
+                                                                                      
+    ┌──────────────────────────────────────────────────────────────────────────────┐
+    │ Call Arguments:                                                              │
+    │                                                                              │
+    │ exec {"command":"kubectl describe node k3d-k8sgpt-demo-server-0 | grep cpu"} │
+    └──────────────────────────────────────────────────────────────────────────────┘
+                                                                                    
+  Running  kubectl describe node k3d-k8sgpt-demo-server-0 | grep cpu                                                                                                              
+
+    ┌─────────────────────────────────────────┐
+    │ cpu:                8                   │
+    │   cpu:                8                 │
+    │   cpu                200m (2%)   0 (0%) │
+    └─────────────────────────────────────────┘
+                                               
+  Arrr, the node  k3d-k8sgpt-demo-server-0  be havin' 8 CPUs, with 200m (2%) currently in use. It seems like there be enough CPU resources available, so we might need to adjust the
+  pod's resource requests.                                                                                                                                                        
+                                                                                                                                                                                  
+  ### Step 2: Adjust Resource Requests or Limits for the Pod                                                                                                                      
+                                                                                                                                                                                  
+  Let's check the current resource requests for the  nasty-pod  and adjust them if necessary.                                                                                     
+
+
+    ┌──────────────────────────────────────────────────────┐
+    │ Call Arguments:                                      │
+    │                                                      │
+    │ exec {"command":"kubectl get pod nasty-pod -o yaml"} │
+    └──────────────────────────────────────────────────────┘
+                                                            
+  Running  kubectl get pod nasty-pod -o yaml                                                                                                                                      
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    │ apiVersion: v1                                                                                                                                                                      
+    │ kind: Pod                                                                                                                                                                           
+    │ metadata:                                                                                                                                                                           
+    │   annotations:                                                                                                                                                                      
+    │     kubectl.kubernetes.io/last-applied-configuration: |                                                                                                                             
+    │       {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"nasty-pod","namespace":"default"},"spec":{"containers":[{"image":"nginx","name":"nasty-pod","resources":{
+    │   creationTimestamp: "2025-01-06T17:58:06Z"                                                                                                                                         
+    │   name: nasty-pod                                                                                                                                                                   
+    │   namespace: default                                                                                                                                                                
+    │   resourceVersion: "22214"                                                                                                                                                          
+    │   uid: f89e713d-be9f-4510-9767-b294e3dfc80a                                                                                                                                         
+    │ spec:                                                                                                                                                                               
+    │   containers:                                                                                                                                                                       
+    │   - image: nginx                                                                                                                                                                    
+    │     imagePullPolicy: Always                                                                                                                                                         
+    │     name: nasty-pod                                                                                                                                                                 
+    │     resources:                                                                                                                                                                      
+    │       requests:                                                                                                                                                                     
+    │         cpu: "20"                                                                                                                                                                   
+    │     terminationMessagePath: /dev/termination-log                                                                                                                                    
+    │     terminationMessagePolicy: File                                                                                                                                                  
+    │     volumeMounts:                                                                                                                                                                   
+    │     - mountPath: /var/run/secrets/kubernetes.io/serviceaccount                                                                                                                      
+    │       name: kube-api-access-47bbq                                                                                                                                                   
+    │       readOnly: true                                                                                                                                                                
+    │   dnsPolicy: ClusterFirst                                                                                                                                                           
+    │   enableServiceLinks: true                                                                                                                                                          
+    │   preemptionPolicy: PreemptLowerPriority                                                                                                                                            
+    │   priority: 0                                                                                                                                                                       
+    │   restartPolicy: Always                                                                                                                                                             
+    │   schedulerName: default-scheduler                                                                                                                                                  
+    │   securityContext: {}                                                                                                                                                               
+    │   serviceAccount: default                                                                                                                                                           
+    │   serviceAccountName: default                                                                                                                                                       
+    │   terminationGracePeriodSeconds: 30                                                                                                                                                 
+    │   tolerations:                                                                                                                                                                      
+    │   - effect: NoExecute                                                                                                                                                               
+    │     key: node.kubernetes.io/not-ready                                                                                                                                               
+    │     operator: Exists                                                                                                                                                                
+    │     tolerationSeconds: 300                                                                                                                                                          
+    │   - effect: NoExecute                                                                                                                                                               
+    │     key: node.kubernetes.io/unreachable                                                                                                                                             
+    │     operator: Exists                                                                                                                                                                
+    │     tolerationSeconds: 300                                                                                                                                                          
+    │   volumes:                                                                                                                                                                          
+    │   - name: kube-api-access-47bbq                                                                                                                                                     
+    │     projected:                                                                                                                                                                      
+    │       defaultMode: 420                                                                                                                                                              
+    │       sources:                                                                                                                                                                      
+    │       - serviceAccountToken:                                                                                                                                                        
+    │           expirationSeconds: 3607                                                                                                                                                   
+    │           path: token                                                                                                                                                               
+    │       - configMap:                                                                                                                                                                  
+    │           items:                                                                                                                                                                    
+    │           - key: ca.crt                                                                                                                                                             
+    │             path: ca.crt                                                                                                                                                            
+    │           name: kube-root-ca.crt                                                                                                                                                    
+    │       - downwardAPI:                                                                                                                                                                
+    │           items:                                                                                                                                                                    
+    │           - fieldRef:                                                                                                                                                               
+    │               apiVersion: v1                                                                                                                                                        
+    │               fieldPath: metadata.namespace                                                                                                                                         
+    │             path: namespace                                                                                                                                                         
+    │ status:                                                                                                                                                                             
+    │   conditions:                                                                                                                                                                       
+    │   - lastProbeTime: null                                                                                                                                                             
+    │     lastTransitionTime: "2025-01-06T17:58:06Z"                                                                                                                                      
+    │     message: '0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are                                                                                                
+    │       available: 1 No preemption victims found for incoming pod.'                                                                                                                   
+    │     reason: Unschedulable                                                                                                                                                           
+    │     status: "False"                                                                                                                                                                 
+    │     type: PodScheduled                                                                                                                                                              
+    │   phase: Pending                                                                                                                                                                    
+    │   qosClass: Burstable                                                                                                                                                               
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+  Arrr, the  nasty-pod  be requestin' 20 CPUs, which be too high for the available resources. Let's adjust that to a more reasonable value, say  200m  (0.2 CPU), and apply the   
+  changes.                                                                                                                                                                        
+                                                                                                                                                                                  
+  ### Step 3: Update the Pod's Resource Requests                                                                                                                                  
+                                                                                                                                                                                  
+  I'll be adjustin' the CPU request for the  nasty-pod  to  200m . Hold on tight! 🏴‍☠️                                                                                            
+
+
+    ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+    │ Call Arguments:                                                                                                                                                            │
+    │                                                                                                                                                                            │
+    │ write {"filename":"nasty-pod.yaml","content":"apiVersion: v1\nkind: Pod\nmetadata:\n  name: nasty-pod\n  namespace: default\nspec:\n  containers:\n  - image: nginx...(81) │
+    └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                                                                                                                                                                                  
+  Writing  nasty-pod.yaml                                                                                                                                                         
+
+    ┌──────────────────────────────────────────┐
+    │ Wrote (182) bytes to file nasty-pod.yaml │
+    └──────────────────────────────────────────┘
+                                                
+    ┌────────────────────────────────────────────────────┐
+    │ Call Arguments:                                    │
+    │                                                    │
+    │ exec {"command":"kubectl apply -f nasty-pod.yaml"} │
+    └────────────────────────────────────────────────────┘
+                                                          
+  Running  kubectl apply -f nasty-pod.yaml                                                                                                                                        
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    │ ERROR: exit status 1                                                                                                                                                                
+    │ OUTPUT:                                                                                                                                                                             
+    │ The Pod "nasty-pod" is invalid: spec: Forbidden: pod updates may not change fields other than `spec.containers[*].image`,`spec.initContainers[*].image`,`spec.activeDeadlineSeconds`
+    │   core.PodSpec{                                                                                                                                                                     
+    │       Volumes:        {{Name: "kube-api-access-47bbq", VolumeSource: {Projected: &{Sources: {{ServiceAccountToken: &{ExpirationSeconds: 3607, Path: "token"}}, {ConfigMap: &{LocalOb
+    │       InitContainers: nil,                                                                                                                                                          
+    │       Containers: []core.Container{                                                                                                                                                 
+    │           {                                                                                                                                                                         
+    │               ... // 6 identical fields                                                                                                                                             
+    │               EnvFrom: nil,                                                                                                                                                         
+    │               Env:     nil,                                                                                                                                                         
+    │               Resources: core.ResourceRequirements{                                                                                                                                 
+    │                   Limits:   nil,                                                                                                                                                    
+    │ -                 Requests: core.ResourceList{s"cpu": {i: resource.int64Amount{value: 20}, s: "20", Format: "DecimalSI"}},                                                          
+    │ +                 Requests: core.ResourceList{                                                                                                                                      
+    │ +                     s"cpu": {i: resource.int64Amount{value: 200, scale: -3}, s: "200m", Format: "DecimalSI"},                                                                     
+    │ +                 },                                                                                                                                                                
+    │                   Claims: nil,                                                                                                                                                      
+    │               },                                                                                                                                                                    
+    │               ResizePolicy:  nil,                                                                                                                                                   
+    │               RestartPolicy: nil,                                                                                                                                                   
+    │               ... // 13 identical fields                                                                                                                                            
+    │           },                                                                                                                                                                        
+    │       },                                                                                                                                                                            
+    │       EphemeralContainers: nil,                                                                                                                                                     
+    │       RestartPolicy:       "Always",                                                                                                                                                
+    │       ... // 28 identical fields                                                                                                                                                    
+    │   }                                                                                                                                                                                 
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+  Arrr, it seems I can't be changin' the resource requests directly on an existin' pod. We'll need to delete the  nasty-pod  and recreate it with the updated resource requests.  
+  Let's proceed with that approach.                                                                                                                                               
+                                                                                                                                                                                  
+  ### Step 4: Delete and Recreate the Pod                                                                                                                                         
+                                                                                                                                                                                  
+  I'll be deletin' the  nasty-pod  and then recreatin' it with the updated CPU request. Hold on! 🏴‍☠️                                                                             
+
+
+    ┌─────────────────────────────────────────────────────┐
+    │ Call Arguments:                                     │
+    │                                                     │
+    │ exec {"command": "kubectl delete pod nasty-pod"}    │
+    │ exec {"command": "kubectl apply -f nasty-pod.yaml"} │
+    └─────────────────────────────────────────────────────┘
+                                                           
+  Running  kubectl apply -f nasty-pod.yaml                                                                                                                                        
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    │ ERROR: exit status 1                                                                                                                                                                
+    │ OUTPUT:                                                                                                                                                                             
+    │ The Pod "nasty-pod" is invalid: spec: Forbidden: pod updates may not change fields other than `spec.containers[*].image`,`spec.initContainers[*].image`,`spec.activeDeadlineSeconds`
+    │   core.PodSpec{                                                                                                                                                                     
+    │       Volumes:        {{Name: "kube-api-access-47bbq", VolumeSource: {Projected: &{Sources: {{ServiceAccountToken: &{ExpirationSeconds: 3607, Path: "token"}}, {ConfigMap: &{LocalOb
+    │       InitContainers: nil,                                                                                                                                                          
+    │       Containers: []core.Container{                                                                                                                                                 
+    │           {                                                                                                                                                                         
+    │               ... // 6 identical fields                                                                                                                                             
+    │               EnvFrom: nil,                                                                                                                                                         
+    │               Env:     nil,                                                                                                                                                         
+    │               Resources: core.ResourceRequirements{                                                                                                                                 
+    │                   Limits:   nil,                                                                                                                                                    
+    │ -                 Requests: core.ResourceList{s"cpu": {i: resource.int64Amount{value: 20}, s: "20", Format: "DecimalSI"}},                                                          
+    │ +                 Requests: core.ResourceList{                                                                                                                                      
+    │ +                     s"cpu": {i: resource.int64Amount{value: 200, scale: -3}, s: "200m", Format: "DecimalSI"},                                                                     
+    │ +                 },                                                                                                                                                                
+    │                   Claims: nil,                                                                                                                                                      
+    │               },                                                                                                                                                                    
+    │               ResizePolicy:  nil,                                                                                                                                                   
+    │               RestartPolicy: nil,                                                                                                                                                   
+    │               ... // 13 identical fields                                                                                                                                            
+    │           },                                                                                                                                                                        
+    │       },                                                                                                                                                                            
+    │       EphemeralContainers: nil,                                                                                                                                                     
+    │       RestartPolicy:       "Always",                                                                                                                                                
+    │       ... // 28 identical fields                                                                                                                                                    
+    │   }                                                                                                                                                                                 
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+  Running  kubectl delete pod nasty-pod                                                                                                                                           
+
+    ┌─────────────────────────┐
+    │ pod "nasty-pod" deleted │
+    └─────────────────────────┘
+                               
+  Arrr, the  nasty-pod  be deleted successfully, but it seems there be an error when tryin' to recreate it. Let me try applyin' the pod creation again. Hold on! 🏴‍☠️             
+
+
+    ┌────────────────────────────────────────────────────┐
+    │ Call Arguments:                                    │
+    │                                                    │
+    │ exec {"command":"kubectl apply -f nasty-pod.yaml"} │
+    └────────────────────────────────────────────────────┘
+                                                          
+  Running  kubectl apply -f nasty-pod.yaml                                                                                                                                        
+
+    ┌───────────────────────┐
+    │ pod/nasty-pod created │
+    └───────────────────────┘
+                             
+  Arrr, the  nasty-pod  has been successfully recreated with the updated CPU request of  200m . Now, let's move on to fixin' the service issue for  pod-svc .                     
+                                                                                                                                                                                  
+  ### Step 5: Fix the Service Issue                                                                                                                                               
+                                                                                                                                                                                  
+  I'll be checkin' the pod labels and the service configuration to ensure they match. Let's start by fetchin' the service details.                                                
+
+
+    ┌────────────────────────────────────────────────────┐
+    │ Call Arguments:                                    │
+    │                                                    │
+    │ exec {"command":"kubectl get svc pod-svc -o yaml"} │
+    └────────────────────────────────────────────────────┘
+                                                          
+  Running  kubectl get svc pod-svc -o yaml                                                                                                                                        
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    │ apiVersion: v1                                                                                                                                                                      
+    │ kind: Service                                                                                                                                                                       
+    │ metadata:                                                                                                                                                                           
+    │   annotations:                                                                                                                                                                      
+    │     kubectl.kubernetes.io/last-applied-configuration: |                                                                                                                             
+    │       {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"pod-svc","namespace":"default"},"spec":{"ports":[{"port":80,"protocol":"TCP","targetPort":8080}],"sel
+    │   creationTimestamp: "2025-01-06T17:58:16Z"                                                                                                                                         
+    │   name: pod-svc                                                                                                                                                                     
+    │   namespace: default                                                                                                                                                                
+    │   resourceVersion: "22219"                                                                                                                                                          
+    │   uid: a507cbda-023b-43a7-8c90-4311de92a9e2                                                                                                                                         
+    │ spec:                                                                                                                                                                               
+    │   clusterIP: 10.43.144.197                                                                                                                                                          
+    │   clusterIPs:                                                                                                                                                                       
+    │   - 10.43.144.197                                                                                                                                                                   
+    │   internalTrafficPolicy: Cluster                                                                                                                                                    
+    │   ipFamilies:                                                                                                                                                                       
+    │   - IPv4                                                                                                                                                                            
+    │   ipFamilyPolicy: SingleStack                                                                                                                                                       
+    │   ports:                                                                                                                                                                            
+    │   - port: 80                                                                                                                                                                        
+    │     protocol: TCP                                                                                                                                                                   
+    │     targetPort: 8080                                                                                                                                                                
+    │   selector:                                                                                                                                                                         
+    │     app: dem-app                                                                                                                                                                    
+    │   sessionAffinity: None                                                                                                                                                             
+    │   type: ClusterIP                                                                                                                                                                   
+    │ status:                                                                                                                                                                             
+    │   loadBalancer: {}                                                                                                                                                                  
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+    ┌────────────────────────────────────────────────────────────────────────────────┐
+    │ Call Arguments:                                                                │
+    │                                                                                │
+    │ exec {"command":"kubectl get pods --selector=app=dem-app --namespace=default"} │
+    └────────────────────────────────────────────────────────────────────────────────┘
+                                                                                      
+  Running  kubectl get pods --selector=app=dem-app --namespace=default                                                                                                            
+
+    ┌──────────────────────────────────────────┐
+    │ No resources found in default namespace. │
+    └──────────────────────────────────────────┘
+                                                
+  Arrr, it seems there be no pods with the label  app=dem-app  in the default namespace. We need to ensure that the pods have the correct label to match the service selector.    
+                                                                                                                                                                                  
+  ### Step 6: Update Pod Labels                                                                                                                                                   
+                                                                                                                                                                                  
+  Let's update the labels for the relevant pods to match the service selector. Do ye have a specific pod that should be associated with this service, or should I create a new pod
+  with the correct label?                                                                                                                                                         
+
+> just correct the already exsisting pods label
+
+    ┌─────────────────────────────────────────────────────────┐
+    │ Call Arguments:                                         │
+    │                                                         │
+    │ exec {"command":"kubectl get pods --namespace=default"} │
+    └─────────────────────────────────────────────────────────┘
+                                                               
+  Running  kubectl get pods --namespace=default                                                                                                                                   
+
+    ┌──────────────────────────────────────────────────────────────────────────────────────┐
+    │ NAME                                     READY   STATUS             RESTARTS   AGE   │
+    │ demo-pod                                 1/1     Running            0          2m31s │
+    │ nasty-pod                                0/1     ImagePullBackOff   0          35s   │
+    │ prometheus-example-app-698f5b674-f6qlk   1/1     Running            0          116m  │
+    └──────────────────────────────────────────────────────────────────────────────────────┘
+                                                                                            
+  Arrr, let's update the label for the  demo-pod  to match the service selector  app=dem-app . I'll be doin' that right away! 🏴‍☠️                                                
+
+
+    ┌───────────────────────────────────────────────────────────────────────┐
+    │ Call Arguments:                                                       │
+    │                                                                       │
+    │ exec {"command":"kubectl label pod demo-pod app=dem-app --overwrite"} │
+    └───────────────────────────────────────────────────────────────────────┘
+                                                                             
+  Running  kubectl label pod demo-pod app=dem-app --overwrite                                                                                                                     
+
+    ┌──────────────────────┐
+    │ pod/demo-pod labeled │
+    └──────────────────────┘
+                            
+  Arrr, the  demo-pod  now be labeled with  app=dem-app . This should resolve the service issue for  pod-svc .                                                                    
+                                                                                                                                                                                  
+  Now, let's run the analysis again to ensure all problems be resolved. Hold on tight! 🏴‍☠️                                                                                       
+
+
+    ┌─────────────────────────────────────────────┐
+    │ Call Arguments:                             │
+    │                                             │
+    │ exec {"command":"k8sgpt analyze --explain"} │
+    └─────────────────────────────────────────────┘
+                                                   
+  Running  k8sgpt analyze --explain                                                                                                                                               
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 100% |██████████████████                                                      0s]
+    │ AI Provider: openai                                                                                                                                                                 
+    │                                                                                                                                                                                     
+    │ 0 default/nasty-pod(nasty-pod)                                                                                                                                                      
+    │ - Error: Back-off pulling image "nginx"                                                                                                                                             
+    │ Error: ---                                                                                                                                                                          
+    │ Back-off pulling image "nginx": could not fetch from source and no retries remaining.                                                                                               
+    │                                                                                                                                                                                     
+    │ Solution:                                                                                                                                                                           
+    │ 1. Check if the registry is up and running.                                                                                                                                         
+    │ 2. Update your Dockerfile or container run command to specify a correct registry, e.g., `docker.io` instead of just `nginx`.                                                        
+    │ 3. Apply changes and try pulling the image again.                                                                                                                                   
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+  Arrr, it seems we still have an issue with the  nasty-pod . The error be a "Back-off pulling image 'nginx'". Here be the steps to fix it:                                       
+                                                                                                                                                                                  
+  ### Solution for Image Pull Back-off                                                                                                                                            
+                                                                                                                                                                                  
+  1. Check if the registry is up and running.                                                                                                                                     
+  2. Update your Dockerfile or container run command to specify a correct registry, e.g.,  docker.io/nginx  instead of just  nginx .                                              
+  3. Apply changes and try pulling the image again.                                                                                                                               
+                                                                                                                                                                                  
+  Would ye like me to proceed with fixin' this image pull issue, or do ye have any questions, matey?                                                                              
+
+> how about wait for a second
+
+  Aye aye, captain! I'll be waitin' right here if ye need anythin'. Just give me a holler when ye be ready to proceed! 🏴‍☠️                                                       
+
+> re run the k8sgpt command agaian
+
+    ┌─────────────────────────────────────────────┐
+    │ Call Arguments:                             │
+    │                                             │
+    │ exec {"command":"k8sgpt analyze --explain"} │
+    └─────────────────────────────────────────────┘
+                                                   
+  Running  k8sgpt analyze --explain                                                                                                                                               
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 100% |██████████████████                                                      0s]
+    │ AI Provider: openai                                                                                                                                                                 
+    │                                                                                                                                                                                     
+    │ 0 default/nasty-pod(nasty-pod)                                                                                                                                                      
+    │ - Error: Back-off pulling image "nginx"                                                                                                                                             
+    │ Error: ---                                                                                                                                                                          
+    │ Back-off pulling image "nginx": could not fetch from source and no retries remaining.                                                                                               
+    │                                                                                                                                                                                     
+    │ Solution:                                                                                                                                                                           
+    │ 1. Check if the registry is up and running.                                                                                                                                         
+    │ 2. Update your Dockerfile or container run command to specify a correct registry, e.g., `docker.io` instead of just `nginx`.                                                        
+    │ 3. Apply changes and try pulling the image again.                                                                                                                                   
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+  Arrr, the  nasty-pod  still be facin' the same issue with the "Back-off pulling image 'nginx'". Here be the steps to fix it:                                                    
+                                                                                                                                                                                  
+  1. Check if the registry is up and running.                                                                                                                                     
+  2. Update your Dockerfile or container run command to specify a correct registry, e.g.,  docker.io/nginx  instead of just  nginx .                                              
+  3. Apply changes and try pulling the image again.                                                                                                                               
+                                                                                                                                                                                  
+  Would ye like me to proceed with fixin' this image pull issue, or do ye have any questions, matey?                                                                              
+
+> fix it for me?
+
+  Aye aye, captain! I'll be fixin' the image pull issue for the  nasty-pod . Let's update the image reference to use the correct registry. I'll be doin' that right away! 🏴‍☠️    
+                                                                                                                                                                                  
+  ### Step 1: Update the Pod's Image Reference                                                                                                                                    
+                                                                                                                                                                                  
+  I'll update the image reference in the pod configuration to  docker.io/nginx . Let's make the change and apply it.                                                              
+
+
+    ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+    │ Call Arguments:                                                                                                                                                            │
+    │                                                                                                                                                                            │
+    │ write {"filename":"nasty-pod.yaml","content":"apiVersion: v1\nkind: Pod\nmetadata:\n  name: nasty-pod\n  namespace: default\nspec:\n  containers:\n  - image: docke...(91) │
+    └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                                                                                                                                                                                  
+  Writing  nasty-pod.yaml                                                                                                                                                         
+
+    ┌──────────────────────────────────────────┐
+    │ Wrote (192) bytes to file nasty-pod.yaml │
+    └──────────────────────────────────────────┘
+                                                
+    ┌────────────────────────────────────────────────────┐
+    │ Call Arguments:                                    │
+    │                                                    │
+    │ exec {"command":"kubectl apply -f nasty-pod.yaml"} │
+    └────────────────────────────────────────────────────┘
+                                                          
+  Running  kubectl apply -f nasty-pod.yaml                                                                                                                                        
+
+    ┌──────────────────────────┐
+    │ pod/nasty-pod configured │
+    └──────────────────────────┘
+                                
+  Arrr, the  nasty-pod  has been successfully updated with the image reference  docker.io/nginx . Now, let's check if the pod be runnin' smoothly. I'll fetch the pod status for  
+  ye. 🏴‍☠️                                                                                                                                                                        
+
+
+    ┌───────────────────────────────────────────────────────────────────┐
+    │ Call Arguments:                                                   │
+    │                                                                   │
+    │ exec {"command":"kubectl get pods nasty-pod --namespace=default"} │
+    └───────────────────────────────────────────────────────────────────┘
+                                                                         
+  Running  kubectl get pods nasty-pod --namespace=default                                                                                                                         
+
+    ┌────────────────────────────────────────────────────────┐
+    │ NAME        READY   STATUS             RESTARTS   AGE  │
+    │ nasty-pod   0/1     ImagePullBackOff   0          105s │
+    └────────────────────────────────────────────────────────┘
+                                                              
+  Arrr, it seems the  nasty-pod  still be in the "ImagePullBackOff" state. Let's delve deeper into the pod's events to understand why it be havin' trouble pullin' the image. I'll
+  fetch the events for ye. 🏴‍☠️                                                                                                                                                   
+
+
+    ┌───────────────────────────────────────────────────────────────────────┐
+    │ Call Arguments:                                                       │
+    │                                                                       │
+    │ exec {"command":"kubectl describe pod nasty-pod --namespace=default"} │
+    └───────────────────────────────────────────────────────────────────────┘
+                                                                             
+  Running  kubectl describe pod nasty-pod --namespace=default                                                                                                                     
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    │ Name:             nasty-pod                                                                                                                                                         
+    │ Namespace:        default                                                                                                                                                           
+    │ Priority:         0                                                                                                                                                                 
+    │ Service Account:  default                                                                                                                                                           
+    │ Node:             k3d-k8sgpt-demo-server-0/172.19.0.2                                                                                                                               
+    │ Start Time:       Mon, 06 Jan 2025 23:30:12 +0530                                                                                                                                   
+    │ Labels:           <none>                                                                                                                                                            
+    │ Annotations:      <none>                                                                                                                                                            
+    │ Status:           Pending                                                                                                                                                           
+    │ IP:               10.42.0.88                                                                                                                                                        
+    │ IPs:                                                                                                                                                                                
+    │   IP:  10.42.0.88                                                                                                                                                                   
+    │ Containers:                                                                                                                                                                         
+    │   nasty-pod:                                                                                                                                                                        
+    │     Container ID:                                                                                                                                                                   
+    │     Image:          docker.io/nginx                                                                                                                                                 
+    │     Image ID:                                                                                                                                                                       
+    │     Port:           <none>                                                                                                                                                          
+    │     Host Port:      <none>                                                                                                                                                          
+    │     State:          Waiting                                                                                                                                                         
+    │       Reason:       ImagePullBackOff                                                                                                                                                
+    │     Ready:          False                                                                                                                                                           
+    │     Restart Count:  0                                                                                                                                                               
+    │     Requests:                                                                                                                                                                       
+    │       cpu:        200m                                                                                                                                                              
+    │     Environment:  <none>                                                                                                                                                            
+    │     Mounts:                                                                                                                                                                         
+    │       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hwz9j (ro)                                                                                                 
+    │ Conditions:                                                                                                                                                                         
+    │   Type                        Status                                                                                                                                                
+    │   PodReadyToStartContainers   True                                                                                                                                                  
+    │   Initialized                 True                                                                                                                                                  
+    │   Ready                       False                                                                                                                                                 
+    │   ContainersReady             False                                                                                                                                                 
+    │   PodScheduled                True                                                                                                                                                  
+    │ Volumes:                                                                                                                                                                            
+    │   kube-api-access-hwz9j:                                                                                                                                                            
+    │     Type:                    Projected (a volume that contains injected data from multiple sources)                                                                                 
+    │     TokenExpirationSeconds:  3607                                                                                                                                                   
+    │     ConfigMapName:           kube-root-ca.crt                                                                                                                                       
+    │     ConfigMapOptional:       <nil>                                                                                                                                                  
+    │     DownwardAPI:             true                                                                                                                                                   
+    │ QoS Class:                   Burstable                                                                                                                                              
+    │ Node-Selectors:              <none>                                                                                                                                                 
+    │ Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s                                                                                              
+    │                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s                                                                                            
+    │ Events:                                                                                                                                                                             
+    │   Type     Reason     Age                 From               Message                                                                                                                
+    │   ----     ------     ----                ----               -------                                                                                                                
+    │   Normal   Scheduled  109s                default-scheduler  Successfully assigned default/nasty-pod to k3d-k8sgpt-demo-server-0                                                    
+    │   Warning  Failed     98s                 kubelet            Failed to pull image "nginx": failed to pull and unpack image "docker.io/library/nginx:latest": failed to copy: httpRea
+    │   Warning  Failed     70s                 kubelet            Failed to pull image "nginx": failed to pull and unpack image "docker.io/library/nginx:latest": failed to copy: httpRea
+    │   Normal   Pulling    48s (x3 over 109s)  kubelet            Pulling image "nginx"                                                                                                  
+    │   Warning  Failed     33s (x3 over 98s)   kubelet            Error: ErrImagePull                                                                                                    
+    │   Warning  Failed     33s                 kubelet            Failed to pull image "nginx": failed to pull and unpack image "docker.io/library/nginx:latest": failed to copy: httpRea
+    │   Normal   BackOff    19s (x3 over 97s)   kubelet            Back-off pulling image "nginx"                                                                                         
+    │   Warning  Failed     19s (x3 over 97s)   kubelet            Error: ImagePullBackOff                                                                                                
+    │   Normal   Pulling    10s                 kubelet            Pulling image "docker.io/nginx"                                                                                        
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+  Arrr, it seems there be a network issue when tryin' to pull the image from the registry. The error indicates a DNS resolution problem. Here be what we can do:                  
+                                                                                                                                                                                  
+  1. Check DNS Configuration: Ensure that the DNS settings on the node are correct and can resolve external domains.                                                              
+  2. Network Connectivity: Verify that the node has internet access and can reach the Docker registry.                                                                            
+                                                                                                                                                                                  
+  Would ye like me to assist with checkin' the DNS configuration, or do ye have any other questions, matey?                                                                       
+
+> rerun the k8sgpt command
+
+    ┌─────────────────────────────────────────────┐
+    │ Call Arguments:                             │
+    │                                             │
+    │ exec {"command":"k8sgpt analyze --explain"} │
+    └─────────────────────────────────────────────┘
+                                                   
+  Running  k8sgpt analyze --explain                                                                                                                                               
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ 100% |██████████████████                                                      0s]
+    │ AI Provider: openai                                                                                                                                                                 
+    │                                                                                                                                                                                     
+    │ 0 default/nasty-pod(nasty-pod)                                                                                                                                                      
+    │ - Error: Back-off pulling image "nginx"                                                                                                                                             
+    │ Error: ---                                                                                                                                                                          
+    │ Back-off pulling image "nginx": could not fetch from source and no retries remaining.                                                                                               
+    │                                                                                                                                                                                     
+    │ Solution:                                                                                                                                                                           
+    │ 1. Check if the registry is up and running.                                                                                                                                         
+    │ 2. Update your Dockerfile or container run command to specify a correct registry, e.g., `docker.io` instead of just `nginx`.                                                        
+    │ 3. Apply changes and try pulling the image again.                                                                                                                                   
+    └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                                                                                                          
+  Arrr, the  nasty-pod  still be facin' the same issue with the "Back-off pulling image 'nginx'". Here be the steps to fix it:                                                    
+                                                                                                                                                                                  
+  1. Check if the registry is up and running.                                                                                                                                     
+  2. Update your Dockerfile or container run command to specify a correct registry, e.g.,  docker.io/nginx  instead of just  nginx .                                              
+  3. Apply changes and try pulling the image again.                                                                                                                               
+                                                                                                                                                                                  
+  Would ye like me to proceed with fixin' this image pull issue, or do ye have any questions, matey?                                                                              
+
+> look for issues now?
+
+    ┌─────────────────────────────────────────────┐
+    │ Call Arguments:                             │
+    │                                             │
+    │ exec {"command":"k8sgpt analyze --explain"} │
+    └─────────────────────────────────────────────┘
+                                                   
+  Running  k8sgpt analyze --explain                                                                                                                                               
+
+    ┌──────────────────────┐
+    │ AI Provider: openai  │
+    │                      │
+    │ No problems detected │
+    └──────────────────────┘
+                            
+  Arrr, it seems there be no more issues detected in yer Kubernetes cluster. All be shipshape and ready to sail smoothly! If ye have any more questions or need further           
+  assistance, just give me a holler, matey! 🏴‍☠️                                                                                                                                  
+
+>  
+

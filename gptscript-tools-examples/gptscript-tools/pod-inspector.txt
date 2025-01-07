@@ -1,0 +1,307 @@
+❯ gptscript pod-inspector.gpt
+21:46:43 started  [main]
+21:46:43 started  [context: shared-context]
+21:46:43 ended    [context: shared-context] [output=You are a Kubernetes troubleshooting assistant specializing in diagnosing and fixing pod-related iss...]
+21:46:43 sent     [main]
+21:46:43 started  [sys.exec(3)] [input={"command":"kubectl get pods --all-namespaces"}]
+21:46:43 sent     [sys.exec(3)]
+         content  [3] content | NAMESPACE     NAME                                           READY   STATUS             RESTARTS     ...
+         content  [3] content | default       crash-loop-pod                                 0/1     CrashLoopBackOff   5 (2m24s ago ...
+         content  [3] content | default       faulty-image-tag-deployment-66b965f5b9-xx85j   0/1     ImagePullBackOff   0            ...
+         content  [3] content | default       nasty-pod                                      0/1     Pending            0            ...
+         content  [3] content | default       prometheus-example-app-698f5b674-ndvnj         1/1     Running            0            ...
+         content  [3] content | default       wrong-image-deployment-5c997dd5f-xn62j         0/1     ImagePullBackOff   0            ...
+         content  [3] content | kube-system   coredns-7b98449c4-q6sw5                        1/1     Running            0            ...
+         content  [3] content | kube-system   local-path-provisioner-595dcfc56f-9ndz4        1/1     Running            0            ...
+         content  [3] content | kube-system   metrics-server-cdcc87586-mxqn4                 1/1     Running            0            ...
+         content  [3] content | kube-system   svclb-traefik-25a89423-8558j                   2/2     Running            14 (10h ago) ...
+         content  [3] content | kube-system   traefik-d7c9c5778-kvt8f                        1/1     Running            0            ...
+         content  [3] content | 
+21:46:43 ended    [sys.exec(3)] [output=NAMESPACE     NAME                                           READY   STATUS             RESTARTS...]
+21:46:43 continue [main]
+21:46:43 started  [context: shared-context]
+21:46:43 ended    [context: shared-context] [output=You are a Kubernetes troubleshooting assistant specializing in diagnosing and fixing pod-related iss...]
+21:46:43 sent     [main]
+         content  [1] content | Waiting for model response...
+         content  [1] content | <tool call> exec -> {"command": "kubectl describe pod crash-loop-pod"}
+         content  [1] content | <tool call> exec -> {"command": "kubectl describe pod faulty-image-tag-deployment-66b965f5b9-xx85j"}
+         content  [1] content | <tool call> exec -> {"command": "kubectl describe pod nasty-pod"}
+         content  [1] content | <tool call> exec -> {"command": "kubectl describe pod wrong-image-deployment-5c997dd5f-xn62j"}
+21:46:46 started  [sys.exec(5)] [input={"command": "kubectl describe pod faulty-image-tag-deployment-66b965f5b9-xx85j"}]
+21:46:46 sent     [sys.exec(5)]
+21:46:46 started  [sys.exec(6)] [input={"command": "kubectl describe pod crash-loop-pod"}]
+21:46:46 started  [sys.exec(7)] [input={"command": "kubectl describe pod wrong-image-deployment-5c997dd5f-xn62j"}]
+21:46:46 sent     [sys.exec(6)]
+21:46:46 started  [sys.exec(8)] [input={"command": "kubectl describe pod nasty-pod"}]
+21:46:46 sent     [sys.exec(7)]
+21:46:46 sent     [sys.exec(8)]
+         content  [5] content | Name:             faulty-image-tag-deployment-66b965f5b9-xx85j
+         content  [5] content | Namespace:        default
+         content  [5] content | Priority:         0
+         content  [5] content | Service Account:  default
+         content  [5] content | Node:             k3d-k8sgpt-demo-server-0/172.19.0.2
+         content  [5] content | Start Time:       Tue, 07 Jan 2025 21:41:02 +0530
+         content  [5] content | Labels:           app=faulty-image-tag
+         content  [5] content |                   pod-template-hash=66b965f5b9
+         content  [5] content | Annotations:      <none>
+         content  [5] content | Status:           Pending
+         content  [5] content | IP:               10.42.0.171
+         content  [5] content | IPs:
+         content  [5] content |   IP:           10.42.0.171
+         content  [5] content | Controlled By:  ReplicaSet/faulty-image-tag-deployment-66b965f5b9
+         content  [5] content | Containers:
+         content  [5] content |   faulty-container:
+         content  [5] content |     Container ID:   
+         content  [5] content |     Image:          nginx:invalidtag123
+         content  [5] content |     Image ID:       
+         content  [5] content |     Port:           80/TCP
+         content  [5] content |     Host Port:      0/TCP
+         content  [5] content |     State:          Waiting
+         content  [5] content |       Reason:       ImagePullBackOff
+         content  [5] content |     Ready:          False
+         content  [5] content |     Restart Count:  0
+         content  [5] content |     Environment:    <none>
+         content  [5] content |     Mounts:
+         content  [5] content |       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-ps7fl (ro)
+         content  [5] content | Conditions:
+         content  [5] content |   Type                        Status
+         content  [5] content |   PodReadyToStartContainers   True 
+         content  [5] content |   Initialized                 True 
+         content  [5] content |   Ready                       False 
+         content  [5] content |   ContainersReady             False 
+         content  [5] content |   PodScheduled                True 
+         content  [5] content | Volumes:
+         content  [5] content |   kube-api-access-ps7fl:
+         content  [5] content |     Type:                    Projected (a volume that contains injected data from multiple sources)
+         content  [5] content |     TokenExpirationSeconds:  3607
+         content  [5] content |     ConfigMapName:           kube-root-ca.crt
+         content  [5] content |     ConfigMapOptional:       <nil>
+         content  [5] content |     DownwardAPI:             true
+         content  [5] content | QoS Class:                   BestEffort
+         content  [5] content | Node-Selectors:              <none>
+         content  [5] content | Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+         content  [5] content |                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+         content  [5] content | Events:
+         content  [5] content |   Type     Reason     Age                    From               Message
+         content  [5] content |   ----     ------     ----                   ----               -------
+         content  [5] content |   Normal   Scheduled  5m43s                  default-scheduler  Successfully assigned default/faulty ...
+         content  [5] content |   Normal   Pulling    4m9s (x4 over 5m43s)   kubelet            Pulling image "nginx:invalidtag123"
+         content  [5] content |   Warning  Failed     4m6s (x4 over 5m40s)   kubelet            Failed to pull image "nginx:invalidt ...
+         content  [5] content |   Warning  Failed     4m6s (x4 over 5m40s)   kubelet            Error: ErrImagePull
+         content  [5] content |   Warning  Failed     3m41s (x6 over 5m40s)  kubelet            Error: ImagePullBackOff
+         content  [5] content |   Normal   BackOff    35s (x19 over 5m40s)   kubelet            Back-off pulling image "nginx:invali ...
+         content  [5] content | 
+         content  [6] content | Name:             crash-loop-pod
+         content  [6] content | Namespace:        default
+         content  [6] content | Priority:         0
+         content  [6] content | Service Account:  default
+         content  [6] content | Node:             k3d-k8sgpt-demo-server-0/172.19.0.2
+         content  [6] content | Start Time:       Tue, 07 Jan 2025 21:41:02 +0530
+         content  [6] content | Labels:           <none>
+         content  [6] content | Annotations:      <none>
+         content  [6] content | Status:           Running
+         content  [6] content | IP:               10.42.0.170
+         content  [6] content | IPs:
+         content  [6] content |   IP:  10.42.0.170
+         content  [6] content | Containers:
+         content  [6] content |   crash-loop-container:
+         content  [6] content |     Container ID:  containerd://2195e07ea7838a2e79a031cfe456907437b5772402320343a69989035b1d9f69
+         content  [6] content |     Image:         busybox
+         content  [6] content |     Image ID:      docker.io/library/busybox@sha256:2919d0172f7524b2d8df9e50066a682669e6d170ac0f6a49 ...
+         content  [6] content |     Port:          <none>
+         content  [6] content |     Host Port:     <none>
+         content  [6] content |     Command:
+         content  [6] content |       sh
+         content  [6] content |       -c
+         content  [6] content |       exit 1
+         content  [6] content |     State:          Waiting
+         content  [6] content |       Reason:       CrashLoopBackOff
+         content  [6] content |     Last State:     Terminated
+         content  [6] content |       Reason:       Error
+         content  [6] content |       Exit Code:    1
+         content  [6] content |       Started:      Tue, 07 Jan 2025 21:44:19 +0530
+         content  [6] content |       Finished:     Tue, 07 Jan 2025 21:44:19 +0530
+         content  [6] content |     Ready:          False
+         content  [6] content |     Restart Count:  5
+         content  [6] content |     Environment:    <none>
+         content  [6] content |     Mounts:
+         content  [6] content |       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bkp5b (ro)
+         content  [6] content | Conditions:
+         content  [6] content |   Type                        Status
+         content  [6] content |   PodReadyToStartContainers   True 
+         content  [6] content |   Initialized                 True 
+         content  [6] content |   Ready                       False 
+         content  [6] content |   ContainersReady             False 
+         content  [6] content |   PodScheduled                True 
+         content  [6] content | Volumes:
+         content  [6] content |   kube-api-access-bkp5b:
+         content  [6] content |     Type:                    Projected (a volume that contains injected data from multiple sources)
+         content  [6] content |     TokenExpirationSeconds:  3607
+         content  [6] content |     ConfigMapName:           kube-root-ca.crt
+         content  [6] content |     ConfigMapOptional:       <nil>
+         content  [6] content |     DownwardAPI:             true
+         content  [6] content | QoS Class:                   BestEffort
+         content  [6] content | Node-Selectors:              <none>
+         content  [6] content | Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+         content  [6] content |                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+         content  [6] content | Events:
+         content  [6] content |   Type     Reason     Age                    From               Message
+         content  [6] content |   ----     ------     ----                   ----               -------
+         content  [6] content |   Normal   Scheduled  5m43s                  default-scheduler  Successfully assigned default/crash- ...
+         content  [6] content |   Normal   Pulled     5m40s                  kubelet            Successfully pulled image "busybox"  ...
+         content  [6] content |   Normal   Pulled     5m37s                  kubelet            Successfully pulled image "busybox"  ...
+         content  [6] content |   Normal   Pulled     5m21s                  kubelet            Successfully pulled image "busybox"  ...
+         content  [6] content |   Normal   Created    4m53s (x4 over 5m40s)  kubelet            Created container crash-loop-contain ...
+         content  [6] content |   Normal   Started    4m53s (x4 over 5m40s)  kubelet            Started container crash-loop-contain ...
+         content  [6] content |   Normal   Pulled     4m53s                  kubelet            Successfully pulled image "busybox"  ...
+         content  [6] content |   Normal   Pulling    4m1s (x5 over 5m43s)   kubelet            Pulling image "busybox"
+         content  [6] content |   Warning  BackOff    43s (x24 over 5m37s)   kubelet            Back-off restarting failed container ...
+         content  [6] content | 
+21:46:46 ended    [sys.exec(5)] [output=Name:             faulty-image-tag-deployment-66b965f5b9-xx85j\nNamespace:        default\nPriority:...]
+         content  [7] content | Name:             wrong-image-deployment-5c997dd5f-xn62j
+         content  [7] content | Namespace:        default
+         content  [7] content | Priority:         0
+         content  [7] content | Service Account:  default
+         content  [7] content | Node:             k3d-k8sgpt-demo-server-0/172.19.0.2
+         content  [7] content | Start Time:       Tue, 07 Jan 2025 21:41:02 +0530
+         content  [7] content | Labels:           app=wrong-image
+         content  [7] content |                   pod-template-hash=5c997dd5f
+         content  [7] content | Annotations:      <none>
+         content  [7] content | Status:           Pending
+         content  [7] content | IP:               10.42.0.172
+         content  [7] content | IPs:
+         content  [7] content |   IP:           10.42.0.172
+         content  [7] content | Controlled By:  ReplicaSet/wrong-image-deployment-5c997dd5f
+         content  [7] content | Containers:
+         content  [7] content |   typo-container:
+         content  [7] content |     Container ID:   
+         content  [7] content |     Image:          nginxx:latest
+         content  [7] content |     Image ID:       
+         content  [7] content |     Port:           80/TCP
+         content  [7] content |     Host Port:      0/TCP
+         content  [7] content |     State:          Waiting
+         content  [7] content |       Reason:       ImagePullBackOff
+         content  [7] content |     Ready:          False
+         content  [7] content |     Restart Count:  0
+         content  [7] content |     Environment:    <none>
+         content  [7] content |     Mounts:
+         content  [7] content |       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-dj6t8 (ro)
+         content  [7] content | Conditions:
+         content  [7] content |   Type                        Status
+         content  [7] content |   PodReadyToStartContainers   True 
+         content  [7] content |   Initialized                 True 
+         content  [7] content |   Ready                       False 
+         content  [7] content |   ContainersReady             False 
+         content  [7] content |   PodScheduled                True 
+         content  [7] content | Volumes:
+         content  [7] content |   kube-api-access-dj6t8:
+         content  [7] content |     Type:                    Projected (a volume that contains injected data from multiple sources)
+         content  [7] content |     TokenExpirationSeconds:  3607
+         content  [7] content |     ConfigMapName:           kube-root-ca.crt
+         content  [7] content |     ConfigMapOptional:       <nil>
+         content  [7] content |     DownwardAPI:             true
+         content  [7] content | QoS Class:                   BestEffort
+         content  [7] content | Node-Selectors:              <none>
+         content  [7] content | Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+         content  [7] content |                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+         content  [7] content | Events:
+         content  [7] content |   Type     Reason     Age                    From               Message
+         content  [7] content |   ----     ------     ----                   ----               -------
+         content  [7] content |   Normal   Scheduled  5m43s                  default-scheduler  Successfully assigned default/wrong- ...
+         content  [7] content |   Normal   Pulling    4m12s (x4 over 5m43s)  kubelet            Pulling image "nginxx:latest"
+         content  [7] content |   Warning  Failed     4m9s (x4 over 5m40s)   kubelet            Failed to pull image "nginxx:latest" ...
+         content  [7] content |   Warning  Failed     4m9s (x4 over 5m40s)   kubelet            Error: ErrImagePull
+         content  [7] content |   Warning  Failed     3m45s (x6 over 5m40s)  kubelet            Error: ImagePullBackOff
+         content  [7] content |   Normal   BackOff    41s (x19 over 5m40s)   kubelet            Back-off pulling image "nginxx:lates ...
+         content  [7] content | 
+21:46:46 ended    [sys.exec(6)] [output=Name:             crash-loop-pod\nNamespace:        default\nPriority:         0\nService Account:  def...]
+         content  [8] content | Name:             nasty-pod
+         content  [8] content | Namespace:        default
+         content  [8] content | Priority:         0
+         content  [8] content | Service Account:  default
+         content  [8] content | Node:             <none>
+         content  [8] content | Labels:           <none>
+         content  [8] content | Annotations:      <none>
+         content  [8] content | Status:           Pending
+         content  [8] content | IP:               
+         content  [8] content | IPs:              <none>
+         content  [8] content | Containers:
+         content  [8] content |   nasty-pod:
+         content  [8] content |     Image:      nginx
+         content  [8] content |     Port:       <none>
+         content  [8] content |     Host Port:  <none>
+         content  [8] content |     Requests:
+         content  [8] content |       cpu:        20
+         content  [8] content |     Environment:  <none>
+         content  [8] content |     Mounts:
+         content  [8] content |       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-dpn57 (ro)
+         content  [8] content | Conditions:
+         content  [8] content |   Type           Status
+         content  [8] content |   PodScheduled   False 
+         content  [8] content | Volumes:
+         content  [8] content |   kube-api-access-dpn57:
+         content  [8] content |     Type:                    Projected (a volume that contains injected data from multiple sources)
+         content  [8] content |     TokenExpirationSeconds:  3607
+         content  [8] content |     ConfigMapName:           kube-root-ca.crt
+         content  [8] content |     ConfigMapOptional:       <nil>
+         content  [8] content |     DownwardAPI:             true
+         content  [8] content | QoS Class:                   Burstable
+         content  [8] content | Node-Selectors:              <none>
+         content  [8] content | Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+         content  [8] content |                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+         content  [8] content | Events:
+         content  [8] content |   Type     Reason            Age    From               Message
+         content  [8] content |   ----     ------            ----   ----               -------
+         content  [8] content |   Warning  FailedScheduling  5m43s  default-scheduler  0/1 nodes are available: 1 Insufficient cpu.  ...
+         content  [8] content |   Warning  FailedScheduling  32s    default-scheduler  0/1 nodes are available: 1 Insufficient cpu.  ...
+         content  [8] content | 
+21:46:46 ended    [sys.exec(7)] [output=Name:             wrong-image-deployment-5c997dd5f-xn62j\nNamespace:        default\nPriority:...]
+21:46:46 ended    [sys.exec(8)] [output=Name:             nasty-pod\nNamespace:        default\nPriority:         0\nService Account:  default\n...]
+21:46:46 continue [main]
+21:46:46 started  [context: shared-context]
+21:46:46 ended    [context: shared-context] [output=You are a Kubernetes troubleshooting assistant specializing in diagnosing and fixing pod-related iss...]
+21:46:46 sent     [main]
+         content  [1] content | Waiting for model response...         content  [1] content | Here are the issues identified with the pods and the recommended actions to resolve them:
+         content  [1] content | 
+         content  [1] content | 1. **Pod: `crash-loop-pod`**
+         content  [1] content |    - **Issue**: The container is in a `CrashLoopBackOff` state due to the command `exit 1` which causes it to terminate immediately.
+         content  [1] content |    - **Solution**: Update the container's command to a valid one that does not exit immediately. For example, you can change the command to keep the container running, such as `sh -c "while true; do sleep 30; done;"`.
+         content  [1] content | 
+         content  [1] content | 2. **Pod: `faulty-image-tag-deployment-66b965f5b9-xx85j`**
+         content  [1] content |    - **Issue**: The container is in an `ImagePullBackOff` state because the image `nginx:invalidtag123` does not exist.
+         content  [1] content |    - **Solution**: Update the deployment to use a valid image tag. For example, change the image to `nginx:latest` or any other valid tag.
+         content  [1] content | 
+         content  [1] content | 3. **Pod: `nasty-pod`**
+         content  [1] content |    - **Issue**: The pod is in a `Pending` state due to insufficient CPU resources (`0/1 nodes are available: 1 Insufficient cpu`).
+         content  [1] content |    - **Solution**: Either increase the CPU resources available on the node or reduce the CPU request in the pod specification.
+         content  [1] content | 
+         content  [1] content | 4. **Pod: `wrong-image-deployment-5c997dd5f-xn62j`**
+         content  [1] content |    - **Issue**: The container is in an `ImagePullBackOff` state because the image `nginxx:latest` is misspelled and does not exist.
+         content  [1] content |    - **Solution**: Correct the image name to `nginx:latest` or any other valid image name.
+         content  [1] content | 
+         content  [1] content | Would you like to proceed with any specific actions or need further assistance with commands to apply these changes?
+21:46:54 ended    [main] [output=Here are the issues identified with the pods and the recommended actions to resolve them:\n\n1. **Pod:...]
+21:46:54 usage    [total=4961] [prompt=4455] [completion=506]
+
+OUTPUT:
+
+Here are the issues identified with the pods and the recommended actions to resolve them:
+
+1. **Pod: `crash-loop-pod`**
+   - **Issue**: The container is in a `CrashLoopBackOff` state due to the command `exit 1` which causes it to terminate immediately.
+   - **Solution**: Update the container's command to a valid one that does not exit immediately. For example, you can change the command to keep the container running, such as `sh -c "while true; do sleep 30; done;"`.
+
+2. **Pod: `faulty-image-tag-deployment-66b965f5b9-xx85j`**
+   - **Issue**: The container is in an `ImagePullBackOff` state because the image `nginx:invalidtag123` does not exist.
+   - **Solution**: Update the deployment to use a valid image tag. For example, change the image to `nginx:latest` or any other valid tag.
+
+3. **Pod: `nasty-pod`**
+   - **Issue**: The pod is in a `Pending` state due to insufficient CPU resources (`0/1 nodes are available: 1 Insufficient cpu`).
+   - **Solution**: Either increase the CPU resources available on the node or reduce the CPU request in the pod specification.
+
+4. **Pod: `wrong-image-deployment-5c997dd5f-xn62j`**
+   - **Issue**: The container is in an `ImagePullBackOff` state because the image `nginxx:latest` is misspelled and does not exist.
+   - **Solution**: Correct the image name to `nginx:latest` or any other valid image name.
+
+Would you like to proceed with any specific actions or need further assistance with commands to apply these changes?
+
